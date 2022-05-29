@@ -1,6 +1,6 @@
 #  Tube Model GUI    
 
-A GUI to cnntrol three tube model via tkinter.  
+A GUI to control three tube model via tkinter.  
 
 
 
