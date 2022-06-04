@@ -1,7 +1,7 @@
 #coding:utf-8
 
 #
-# A GUI for .py
+# A GUI for threetube1.py
 # by tkinter
 #
 #--------------------------------------------------------------
