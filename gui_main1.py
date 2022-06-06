@@ -45,6 +45,8 @@ class GUI_App(ttk.Frame):
         self.save_wav_init_dir= os.getcwd()
         #
         self.enable_print = True
+        self.multiply_mode = True
+        self.linear_scale_mode = True
         #
         self.create_widgets()
         
@@ -90,8 +92,13 @@ class GUI_App(ttk.Frame):
         gyou=0
         #self.label1= ttk.Label(self.frame2, text='Total tube  length [cm]',width=20)
         self.entry1= ttk.Entry(self.frame2)
-        self.entry1.insert(0,'10')
-        self.length_buttonb1 = ttk.Button(self.frame2, text='Adjust total length', width=20, command= self.length_button1_clicked)
+        
+        if self.multiply_mode:
+            self.entry1.insert(0,'1')
+            self.length_buttonb1 = ttk.Button(self.frame2, text='Adjust to multiply length by', width=25, command= self.length_button1_clicked)
+        else:
+            self.entry1.insert(0,'10')
+            self.length_buttonb1 = ttk.Button(self.frame2, text='Adjust total length', width=20, command= self.length_button1_clicked)
         #self.label1.grid(row=gyou, column=1)
         self.entry1.grid(row=gyou, column=1)
         #gyou=gyou+1
@@ -187,9 +194,14 @@ class GUI_App(ttk.Frame):
         self.entry41.grid(row=gyou, column=1)
         
         gyou=gyou+1
-        self.label42= ttk.Label(self.frame4, text='resolution',width=13)
-        self.entry42= ttk.Entry(self.frame4)
-        self.entry42.insert(0,'6')
+        if self.linear_scale_mode:
+            self.label42= ttk.Label(self.frame4, text='resolution[Hz]',width=13)
+            self.entry42= ttk.Entry(self.frame4)
+            self.entry42.insert(0,'1')
+        else:
+            self.label42= ttk.Label(self.frame4, text='resolution',width=13)
+            self.entry42= ttk.Entry(self.frame4)
+            self.entry42.insert(0,'6')
         self.label42.grid(row=gyou, column=0)
         self.entry42.grid(row=gyou, column=1)
         
@@ -270,7 +282,11 @@ class GUI_App(ttk.Frame):
         
         # insatnce
         self.threetube_o  =  Class_ThreeTube(L3, A3, L1, L2, A1, A2, sampling_rate=sampling_rate,A440=A440,octave=octave,resolution=resolution)
-        self.amp1, self.freq=self.threetube_o.H1()
+        if self.linear_scale_mode:
+            self.amp1, self.freq=self.threetube_o.H1_linear()
+        else:
+            self.amp1, self.freq=self.threetube_o.H1()
+        
         self.peaks=self.threetube_o.get_peaks(self.amp1)
         print (self.freq[self.peaks])
         
@@ -287,16 +303,20 @@ class GUI_App(ttk.Frame):
         #
         if self.enable_print:
             print ('length_button1 was clicked. Each length be adjusted.')
-            TL_tgt=float(self.entry1.get())
-            L1=self.scale21.get()
-            L2=self.scale22.get()
-            L3=self.scale23.get()
+        
+        TL_tgt=float(self.entry1.get())
+        L1=self.scale21.get()
+        L2=self.scale22.get()
+        L3=self.scale23.get()
+        if self.multiply_mode:
+            self.scale21.set(L1 * TL_tgt )
+            self.scale22.set(L2 * TL_tgt )
+            self.scale23.set(L3 * TL_tgt )
+        else:
             TL_now=L1+L2+L3
             self.scale21.set(L1 * TL_tgt / TL_now )
             self.scale22.set(L2 * TL_tgt / TL_now )
             self.scale23.set(L3 * TL_tgt / TL_now )
-        
-        
         
     def make_draw(self,):
         #

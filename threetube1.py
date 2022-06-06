@@ -81,6 +81,14 @@ class Class_ThreeTube(object):
         if SHOW:
             print (self.f_list)
     
+    def get_f_linear_list(self,SHOW=True):
+        #self.onkai_resolution=4 #　分解能
+        #self.num_octave=2 #　何オクターブ
+        #self.A440=440     #  開始周波数
+        f_end=np.power(2, self.num_octave) * self.A440 # 終了周波数
+        self.f_list=np.linspace(self.A440, f_end, int( (f_end - self.A440)/self.onkai_resolution  + 1  ) )
+        if SHOW:
+            print (self.f_list)
     
     def H1(self,):
         self.get_f_list(SHOW=False)
@@ -88,7 +96,12 @@ class Class_ThreeTube(object):
         
         return  np.log10(self.f_amp) * 20, self.f_list # = amp value, freq list
         
-    
+    def H1_linear(self,SHOW=False):
+        self.get_f_linear_list(SHOW=SHOW)
+        self.f_amp=self.fone(self.f_list * 2.0 * np.pi)
+        
+        return  np.log10(self.f_amp) * 20, self.f_list # = amp value, freq list
+        
     def get_peaks(self,amp1):
         MIN_HIGH= 0.4   # ピークの最小高さ
         #MIN_DIS= 0.000001    # 最小の周辺距離
@@ -193,7 +206,8 @@ if __name__ == '__main__':
     plt.ylabel('dB')
     plt.title('frequency response')
     #amp1, freq=threetube_o.H0(freq_high=5000, Band_num=256)
-    amp1, freq=threetube_o.H1()
+    #amp1, freq=threetube_o.H1()  # log scale
+    amp1, freq=threetube_o.H1_linear() #SHOW=True)
     peaks=threetube_o.get_peaks(amp1)
     
     plt.plot(freq, amp1)
