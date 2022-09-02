@@ -22,7 +22,7 @@ u11.txt  u11.wav
 u14.txt  u14.wav  
 e5.txt  e5.wav  
 e7.txt  e7.wav  
-o7.txt  o7.wav 
+o7.txt  o7.wav  
 You can load it by load length area button and generate wav by save generated wav button.    
 
 ## License    
