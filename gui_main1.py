@@ -144,7 +144,7 @@ class GUI_App(ttk.Frame):
         
         # track bar
         
-        DEF_to2=30
+        DEF_to2=50
         DEF_itv2=10
         gyou=0
         self.label31= ttk.Label(self.frame3, text="Area 1 [cm^2]")
@@ -189,7 +189,7 @@ class GUI_App(ttk.Frame):
         gyou=gyou+1
         self.label41= ttk.Label(self.frame4, text='octave',width=13)
         self.entry41= ttk.Entry(self.frame4)
-        self.entry41.insert(0,'2')
+        self.entry41.insert(0,'4')
         self.label41.grid(row=gyou, column=0)
         self.entry41.grid(row=gyou, column=1)
         

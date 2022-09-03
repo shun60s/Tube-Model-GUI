@@ -154,7 +154,7 @@ class GUI_App(ttk.Frame):
         
         # track bar
         
-        DEF_to2=40
+        DEF_to2=50
         DEF_itv2=10
         gyou=0
         self.label31= ttk.Label(self.frame3, text="Area 1 [cm^2]")
